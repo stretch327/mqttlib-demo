@@ -178,7 +178,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub Log(inLogMessage As String = "")
-		  Self.LogArea.AppendText Xojo.Core.Date.Now.ToText + " - " + inLogMessage + EndOfLine
+		  Self.LogArea.AppendText DateTime.Now.SQLDateTime + " - " + inLogMessage + EndOfLine
 		End Sub
 	#tag EndMethod
 
@@ -228,7 +228,7 @@ End
 		Sub BrokerConnected(inSessionPresentFlag As Boolean)
 		  Self.Log "Connected to Broker. Session Present flag is " + If( inSessionPresentFlag, "True", "False" )
 		  
-		  Xojo.Core.Timer.CallLater 1000, AddressOf Self.SubscribeTopics
+		  Timer.CallLater 1000, AddressOf Self.SubscribeTopics
 		End Sub
 	#tag EndEvent
 	#tag Event
@@ -295,7 +295,7 @@ End
 		  
 		  thePacket.TopicName = "test/zd/world"
 		  thePacket.QoSLevel = MQTTLib.QoS.AtLeastOnceDelivery
-		  thePacket.Message = "Hello World! " + Xojo.Core.Date.Now.ToText + " - " + MQTTLib.QoSToString( thePacket.QoSLevel )
+		  thePacket.Message = "Hello World! " + DateTime.Now.SQLDateTime + " - " + MQTTLib.QoSToString( thePacket.QoSLevel )
 		  thePacket.RETAINFlag = True
 		  
 		  Self.MQTTClient.Publish( thePacket )

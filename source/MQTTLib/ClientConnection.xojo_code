@@ -9,8 +9,8 @@ Protected Class ClientConnection
 		  Self.pConnected = False
 		  
 		  // Stop the timers
-		  Self.pPeriodicCheckTimer.Mode = Timer.ModeOff
-		  Self.pKeepAliveTimer.Mode = Xojo.Core.Timer.Modes.Off
+		  Self.pPeriodicCheckTimer.RunMode = Timer.RunModes.Off
+		  Self.pKeepAliveTimer.RunMode = Timer.RunModes.Off
 		  
 		  // Clear the dictionaries
 		  Self.pPacketsAwaitingReply.RemoveAll
@@ -36,11 +36,11 @@ Protected Class ClientConnection
 		  If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName
 		  
 		  // Create the sent packet dictionary
-		  Self.pPacketsAwaitingReply = New Xojo.Core.Dictionary
-		  Self.pPacketsAwaitingReplyTimeout = New Xojo.Core.Dictionary
+		  Self.pPacketsAwaitingReply = New Dictionary
+		  Self.pPacketsAwaitingReplyTimeout = New Dictionary
 		  
 		  // Create the keep alive timer
-		  Self.pKeepAliveTimer = New Xojo.Core.Timer
+		  Self.pKeepAliveTimer = New Timer
 		  
 		  // and wire it
 		  AddHandler Self.pKeepAliveTimer.Action, WeakAddressOf Self.HandleKeepAliveTimerAction
@@ -107,7 +107,7 @@ Protected Class ClientConnection
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub HandleKeepAliveTimerAction(inTimer As Xojo.Core.Timer)
+		Private Sub HandleKeepAliveTimerAction(inTimer As Timer)
 		  #pragma Unused inTimer
 		  
 		  If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName
@@ -123,7 +123,7 @@ Protected Class ClientConnection
 		  // Go through all stored packet to check if they ar all still valid
 		  Dim theTime As Double = Microseconds
 		  
-		  For Each entry As Xojo.Core.DictionaryEntry In Self.pPacketsAwaitingReplyTimeout
+		  For Each entry As DictionaryEntry In Self.pPacketsAwaitingReplyTimeout
 		    
 		    If entry.Value < theTime Then
 		      // Retrieve the packet
@@ -168,7 +168,7 @@ Protected Class ClientConnection
 		  Self.pPacketsAwaitingReply.Value( kCONNECTDictionaryKey ) = Microseconds
 		  
 		  // Start the periodic checker timer
-		  Self.pPeriodicCheckTimer.Mode = Timer.ModeMultiple
+		  Self.pPeriodicCheckTimer.RunMode = Timer.RunModes.Multiple
 		End Sub
 	#tag EndMethod
 
@@ -267,7 +267,7 @@ Protected Class ClientConnection
 		  Self.SendControlPacket( New MQTTLib.ControlPacket( MQTTLib.ControlPacket.Type.PINGREQ ) )
 		  
 		  // Set a delayed call for timeout
-		  Xojo.Core.Timer.CallLater( Self.pControlPacketTimeToLive * 1000, AddressOf Self.HandlePINGTimedOut )
+		  Timer.CallLater( Self.pControlPacketTimeToLive * 1000, AddressOf Self.HandlePINGTimedOut )
 		End Sub
 	#tag EndMethod
 
@@ -283,7 +283,7 @@ Protected Class ClientConnection
 		    pConnected = True
 		    
 		    // Arm the keep alive timer
-		    Self.pKeepAliveTimer.Mode = Xojo.Core.Timer.Modes.Single
+		    Self.pKeepAliveTimer.RunMode = Timer.RunModes.Single
 		    If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName + ": Broker connected"
 		    
 		    RaiseEvent BrokerConnected( inOptions.SessionPresentFlag )
@@ -308,12 +308,12 @@ Protected Class ClientConnection
 		  
 		  If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName
 		  
-		  Xojo.Core.Timer.CancelCall( WeakAddressOf Self.HandlePINGTimedOut )
+		  Timer.CancelCallLater( WeakAddressOf Self.HandlePINGTimedOut )
 		  
 		  RaiseEvent ReceivedPINGRESP
 		  
 		  // rearm the keep alive timer
-		  Self.pKeepAliveTimer.Mode = Xojo.Core.Timer.Modes.Single
+		  Self.pKeepAliveTimer.RunMode = Timer.RunModes.Single
 		End Sub
 	#tag EndMethod
 
@@ -681,8 +681,8 @@ Protected Class ClientConnection
 		    
 		    // Reset the keep alive timer
 		    If Not( Self.pKeepAliveTimer Is Nil ) Then 
-		      Self.pKeepAliveTimer.Mode = Xojo.Core.Timer.Modes.Off
-		      Self.pKeepAliveTimer.Mode = Xojo.Core.Timer.Modes.Single
+		      Self.pKeepAliveTimer.RunMode = Timer.RunModes.Off
+		      Self.pKeepAliveTimer.RunMode = Timer.RunModes.Single
 		      
 		    End If
 		    
@@ -967,7 +967,7 @@ Protected Class ClientConnection
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private pKeepAliveTimer As Xojo.Core.Timer
+		Private pKeepAliveTimer As Timer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -981,14 +981,14 @@ Protected Class ClientConnection
 		#tag Note
 			This dictionary stores the latest packet sent. The key is the packetID.
 		#tag EndNote
-		Private pPacketsAwaitingReply As Xojo.Core.Dictionary
+		Private pPacketsAwaitingReply As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		#tag Note
 			This dictionary stores the timeout time of the latest packet sent. The key Is the packetID.
 		#tag EndNote
-		Private pPacketsAwaitingReplyTimeout As Xojo.Core.Dictionary
+		Private pPacketsAwaitingReplyTimeout As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

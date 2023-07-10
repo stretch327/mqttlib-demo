@@ -46,8 +46,8 @@ Implements actionNotificationReceiver
 		  pState = True
 		  Self.Invalidate
 		  
-		  If pTimer.Mode = Timer.ModeOff Then
-		    pTimer.Mode = Timer.ModeSingle
+		  If pTimer.RunMode = Timer.RunModes.Off Then
+		    pTimer.RunMode = Timer.RunModes.Single
 		    
 		  Else
 		    pTimer.Reset
