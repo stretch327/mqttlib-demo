@@ -20,6 +20,8 @@ Implements SocketAdapter
 		  AddHandler inTCPSocket.Connected, WeakAddressOf HandleTCPSocketConnected
 		  AddHandler inTCPSocket.DataAvailable, WeakAddressOf HandleTCPSocketIncomingData
 		  AddHandler inTCPSocket.Error, WeakAddressOf HandleTCPSocketError
+		  
+		  
 		End Sub
 	#tag EndMethod
 
@@ -37,8 +39,6 @@ Implements SocketAdapter
 	#tag Method, Flags = &h21
 		Private Sub HandleTCPSocketConnected(inTCPSocket As TCPSocket)
 		  //-- Handle the TCP connection of the socket.
-		  
-		  #Pragma Unused inTCPSocket
 		  
 		  If Not ( Self.pConnectedDelegate Is Nil ) Then pConnectedDelegate.Invoke
 		End Sub

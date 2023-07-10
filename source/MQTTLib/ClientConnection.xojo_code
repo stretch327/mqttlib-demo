@@ -108,7 +108,7 @@ Protected Class ClientConnection
 
 	#tag Method, Flags = &h21
 		Private Sub HandleKeepAliveTimerAction(inTimer As Timer)
-		  #pragma Unused inTimer
+		  
 		  
 		  If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName
 		  
@@ -154,8 +154,6 @@ Protected Class ClientConnection
 		Private Sub HandleRawConnectionConnected(inRawConnection As MQTTLib.RawConnection)
 		  //-- The socket adapter is connected, let's open the MQTT connection
 		  
-		  #Pragma Unused inRawConnection
-		  
 		  If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName
 		  
 		  // Create the CONNECT control packet with the options passed to the constructor
@@ -175,8 +173,6 @@ Protected Class ClientConnection
 	#tag Method, Flags = &h21
 		Private Sub HandleRawConnectionControlPacketReceived(inRawConnection As MQTTLib.RawConnection, inControlPacket As MQTTLib.ControlPacket)
 		  //-- A new control packet is available
-		  
-		  #Pragma Unused inRawConnection
 		  
 		  If MQTTLib.VerboseMode Then System.DebugLog CurrentMethodName
 		  

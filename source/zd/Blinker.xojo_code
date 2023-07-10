@@ -4,8 +4,6 @@ Inherits Canvas
 Implements actionNotificationReceiver
 	#tag Event
 		Sub Paint(g As Graphics, areas() As REALbasic.Rect)
-		  #pragma Unused areas
-		  
 		  If pState Then
 		    g.ForeColor = &c00FF00
 		    g.FillRect 0,0, g.Width, g.Height
