@@ -34,8 +34,8 @@ Implements SocketAdapter
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub HandleTCPSocketConnected(inTCPSocket As TCPSocket)
+	#tag Method, Flags = &h21
+		Private Sub HandleTCPSocketConnected(inTCPSocket As TCPSocket)
 		  //-- Handle the TCP connection of the socket.
 		  
 		  #Pragma Unused inTCPSocket
@@ -44,8 +44,8 @@ Implements SocketAdapter
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub HandleTCPSocketError(inTCPSocket As TCPSocket)
+	#tag Method, Flags = &h21
+		Private Sub HandleTCPSocketError(inTCPSocket as TCPSocket, error as RuntimeException)
 		  //-- Handles the TCPSocket.Error event
 		  
 		  // Retrieve and translate the error code
@@ -83,8 +83,8 @@ Implements SocketAdapter
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub HandleTCPSocketIncomingData(inTCPSocket As TCPSocket)
+	#tag Method, Flags = &h21
+		Private Sub HandleTCPSocketIncomingData(inTCPSocket As TCPSocket)
 		  //-- Transfer the new data to the MQTT instance
 		  
 		  If Not ( Self.pIncomingDataDelegate Is Nil ) Then Self.pIncomingDataDelegate.Invoke( inTCPSocket.ReadAll )
